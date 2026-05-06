@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #02105b;
+  --color-charcoal: #131c27;
+  --font-baradig: "Barlow Condensed", sans-serif;
+  --font-sans: "Barlow", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-white bg-charcoal;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-baradig uppercase tracking-tight text-white;
+    font-weight: 900;
+  }
+}
