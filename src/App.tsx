@@ -981,8 +981,8 @@ const ContactView = () => {
     setSendError('');
     try {
       await emailjs.send(
-        process.env.EMAILJS_SERVICE_ID!,
-        process.env.EMAILJS_TEMPLATE_ID!,
+        'service_dbb7zkh',
+        'template_bkck0hs',
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -991,7 +991,7 @@ const ContactView = () => {
           monthly_expense: formData.monthlyExpense,
           message: formData.message,
         },
-        process.env.EMAILJS_PUBLIC_KEY!
+        'dN_0N4S3OoKbWfTWL'
       );
       setSubmitted(true);
       setFormData({ name: '', email: '', phone: '', projectType: 'Residencial High-End', monthlyExpense: '', message: '' });
