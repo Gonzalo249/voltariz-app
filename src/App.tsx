@@ -31,10 +31,10 @@ const Navbar = ({ activeView, setActiveView }: { activeView: string, setActiveVi
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 py-4 overflow-hidden backdrop-blur-xl border-b border-white/10 shadow-lg bg-[#02245c]/85">
+    <nav className="fixed top-0 w-full z-50 py-4 overflow-hidden backdrop-blur-xl bg-[#02245c]/85">
       {/* Logo Background Shape - White Parallelogram */}
       <div
-        className="absolute left-0 top-0 h-full bg-white w-[50%] md:w-[40%] lg:w-[35%]"
+        className="absolute left-0 top-0 h-full bg-white/85 w-[50%] md:w-[40%] lg:w-[35%]"
         style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0 100%)' }}
       />
 
@@ -487,9 +487,9 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
   const processSteps = [
     { id: '01', title: 'Analizar', content: 'Realizamos un diagnóstico técnico profundo de tus consumos históricos y las condiciones de irradiancia en tu ubicación exacta.' },
     { id: '02', title: 'Propuestas', content: 'Diseñamos múltiples escenarios de optimización personalizada, buscando el mayor ahorro financiero y eficiencia técnica.' },
-    { id: '03', title: 'Ingeniería', content: 'Cálculos precisos, diagramas unifilares y planos ejecutivos de grado industrial realizados por expertos certificados.' },
+    { id: '03', title: 'Ingeniería', content: 'Calculamos el sistema ideal para tu caso y te presentamos una propuesta clara con los equipos y el ahorro esperado.' },
     { id: '04', title: 'Instalación', content: 'Ejecución técnica limpia y eficiente, utilizando componentes de marcas Tier 1 y herrajes de alta resistencia climática.' },
-    { id: '05', title: 'Operación', content: 'Entrega de tederos de control inteligente, activación de monitoreo 24/7 y póliza de mantenimiento preventivo.' }
+    { id: '05', title: 'Seguimiento', content: 'Una vez instalado el sistema, te acompañamos para resolver cualquier duda y asegurarnos de que todo funcione bien.' }
   ];
 
   return (
@@ -501,27 +501,51 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
         <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[#131d26]/10 blur-[150px] rounded-full z-0"></div>
 
         <div className="absolute inset-0 z-0 text-white">
-          <img 
-            src="/images/panel_background.webp" 
+          <img
+            src="/images/panel_background.webp"
             alt="Solar Panels Background"
             className="w-full h-full object-cover"
           />
         </div>
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+        {/* Rain overlay */}
+        <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/65"></div>
+          <motion.div
+            className="absolute -top-full left-0 w-full h-[200%]"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(176deg, transparent 0px, transparent 4px, rgba(170,210,255,0.07) 4px, rgba(170,210,255,0.07) 5px)',
+              backgroundSize: '18px 120px',
+            }}
+            animate={{ y: ['0%', '50%'] }}
+            transition={{ duration: 1.1, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute -top-full left-0 w-full h-[200%]"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(176deg, transparent 0px, transparent 9px, rgba(170,210,255,0.04) 9px, rgba(170,210,255,0.04) 10px)',
+              backgroundSize: '32px 180px',
+            }}
+            animate={{ y: ['0%', '50%'] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
+            className="lg:col-span-2"
           >
             <span className="text-xs font-bold text-white tracking-[0.2em] uppercase mb-4 block flex items-center gap-2 drop-shadow-md">
               <span className="w-2 h-2 bg-[#131d26] rounded-full"></span>
               Sostenibilidad Premium
             </span>
             <div className="w-12 h-1 bg-[#131d26] mb-8"></div>
-            <h1 className="text-5xl md:text-7xl font-medium text-white mb-8 leading-[1.1] tracking-tight drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]">Ahorra durante 25 años</h1>
-            <p className="text-lg text-white font-medium mb-12 max-w-md leading-relaxed drop-shadow-md">
-              Con nuestro sistema de energía solar garantizado, aseguramos la independencia energética de tu patrimonio con ingeniería de precisión.
+            <h1 className="text-5xl md:text-7xl font-medium text-white mb-8 leading-[1.1] tracking-tight" style={{ textShadow: '4px 4px 0px #131d26' }}>TRANSFORMA TU CONSUMO EN INVERSIÓN</h1>
+            <p className="text-lg text-white font-medium mb-12 max-w-md leading-relaxed px-5 py-4 bg-black/30 backdrop-blur-sm rounded-lg border-l-2 border-white/20">
+              Lo que hoy pagas de luz, mañana puede ser tuyo. Instala paneles solares y empieza a ahorrar desde el primer mes.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
               <motion.button 
@@ -734,7 +758,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
                 <div className="skew-x-[12deg]">
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mb-2">Ahorro Estimado Anual</p>
                   <p className="text-4xl font-bold mb-4">$68,780 MXN</p>
-                  <p className="text-[9px] text-white/40 italic">*Basado en proyectos industriales promedio de 50kWp.</p>
+                  <p className="text-[9px] text-white/40 italic">*Basado en proyectos comerciales promedio de 50kWp.</p>
                 </div>
               </motion.div>
             </div>
@@ -842,7 +866,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
   );
 };
 
-const SolutionsView = () => {
+const SolutionsView = ({ setActiveView }: { setActiveView: (v: string) => void }) => {
   return (
     <div className="pt-32 relative overflow-hidden bg-white">
       <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,#131c27,#131c27_1px,transparent_1px,transparent_60px)] opacity-[0.08] pointer-events-none z-0"></div>
@@ -932,104 +956,24 @@ const SolutionsView = () => {
             <div className="bg-charcoal/5 border border-charcoal/5 p-12">
               <BarChart3 className="text-charcoal mb-8" size={32} />
               <h3 className="text-2xl font-medium text-charcoal mb-4">Análisis Térmico</h3>
-              <p className="text-charcoal/50 leading-relaxed">Evaluación mediante drones para garantizar la máxima captación de irradiancia en cada panel.</p>
+              <p className="text-charcoal/50 leading-relaxed">Revisamos la orientación y condiciones de tu techo para aprovechar al máximo la luz solar.</p>
             </div>
             <div className="bg-charcoal/5 border border-charcoal/5 p-12">
               <ShieldCheck className="text-charcoal mb-8" size={32} />
               <h3 className="text-2xl font-medium text-charcoal mb-4">Respaldo Voltariz</h3>
-              <p className="text-charcoal/50 leading-relaxed">Garantía extendida de 25 años en componentes y mantenimiento preventivo incluido.</p>
+              <p className="text-charcoal/50 leading-relaxed">Estamos contigo antes y después de la instalación para cualquier duda o seguimiento que necesites.</p>
             </div>
             <div 
-              className="md:col-span-2 bg-[#131d26] text-white p-12 rounded-xl flex flex-col md:flex-row items-center justify-between text-center md:text-left shadow-xl border border-white/5"
+              className="md:col-span-2 bg-navy text-white p-12 rounded-xl flex flex-col md:flex-row items-center justify-between text-center md:text-left shadow-xl border border-white/5"
             >
               <div>
-                <h3 className="text-2xl font-medium mb-2 uppercase">Descarga el Catálogo Técnico 2024</h3>
-                <p className="text-white/40 font-bold uppercase text-[10px] tracking-widest">Especificaciones detalladas de hardware y software</p>
+                <h3 className="text-2xl font-medium mb-2 uppercase">Cotiza sin compromiso</h3>
+                <p className="text-white/40 font-bold uppercase text-[10px] tracking-widest">Dinos cuánto pagas de luz y te decimos cuánto puedes ahorrar</p>
               </div>
               <div>
-                <Download className="text-white mt-8 md:mt-0" size={32} />
+                <MessageCircle className="text-white mt-8 md:mt-0" size={32} />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Portafolio */}
-      <section className="py-32 px-6 md:px-12 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-10 h-1 bg-[#131d26]"></div>
-            <span className="text-xs font-bold text-navy tracking-[0.2em] uppercase">Proyectos Realizados</span>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-            <h2 className="text-4xl md:text-5xl font-medium text-navy leading-tight">Instalaciones que hablan<br/>por sí solas.</h2>
-            <p className="text-navy/40 text-sm max-w-xs leading-relaxed">Cada proyecto es único. Diseñamos soluciones adaptadas a la arquitectura y consumo de cada cliente.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { src: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80', label: 'Residencial · Culiacán', desc: '8 kWp · Ahorro 92%' },
-              { src: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80', label: 'Comercial · Sinaloa', desc: '45 kWp · Ahorro 88%' },
-              { src: 'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=800&q=80', label: 'Industrial · Culiacán', desc: '120 kWp · Ahorro 94%' },
-              { src: 'https://images.unsplash.com/photo-1624397640148-949b1732bb0a?w=800&q=80', label: 'Residencial · Navolato', desc: '6 kWp · Ahorro 89%' },
-              { src: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80', label: 'Comercial · Los Mochis', desc: '30 kWp · Ahorro 91%' },
-              { src: 'https://images.unsplash.com/photo-1545209463-e2825498edbf?w=800&q=80', label: 'Industrial · Mazatlán', desc: '200 kWp · Ahorro 96%' },
-            ].map((p, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02 }}
-                className="relative aspect-[4/3] overflow-hidden rounded-xl group cursor-pointer"
-              >
-                <img src={p.src} alt={p.label} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 brightness-90" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <p className="text-white font-bold text-sm">{p.label}</p>
-                  <p className="text-white/60 text-xs">{p.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonios */}
-      <section className="py-32 px-6 md:px-12 bg-[#f8f9fb]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-10 h-1 bg-[#131d26]"></div>
-            <span className="text-xs font-bold text-navy tracking-[0.2em] uppercase">Lo que dicen nuestros clientes</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-medium text-navy mb-16 leading-tight">Resultados reales,<br/>clientes satisfechos.</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: 'Carlos M.', type: 'Residencial', text: 'Redujimos nuestra factura de luz de $4,800 a menos de $300 al mes. El equipo de Voltariz fue profesional desde el primer día hasta la instalación final.', savings: '94%' },
-              { name: 'Grupo Comercial Ríos', type: 'Comercial', text: 'Teníamos dudas al principio, pero los números hablan solos. En 8 meses ya habíamos recuperado casi el 30% de la inversión. Totalmente recomendado.', savings: '88%' },
-              { name: 'Industrias Del Valle', type: 'Industrial', text: 'La instalación de 150 kWp transformó nuestra estructura de costos operativos. Voltariz entregó todo en tiempo y con una calidad excepcional.', savings: '93%' },
-            ].map((t, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white border border-navy/5 rounded-2xl p-8 flex flex-col gap-6 shadow-sm"
-              >
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, s) => (
-                    <svg key={s} width="14" height="14" viewBox="0 0 24 24" fill="#131d26"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                  ))}
-                </div>
-                <p className="text-navy/70 text-sm leading-relaxed flex-1">"{t.text}"</p>
-                <div className="flex items-center justify-between pt-4 border-t border-navy/5">
-                  <div>
-                    <p className="font-bold text-navy text-sm">{t.name}</p>
-                    <p className="text-xs text-navy/40">{t.type}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-2xl font-bold text-[#131d26]">{t.savings}</p>
-                    <p className="text-xs text-navy/40">de ahorro</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
@@ -1038,29 +982,20 @@ const SolutionsView = () => {
       <section className="bg-charcoal/5 py-32 px-6 md:px-12 text-center">
         <div className="max-w-4xl mx-auto">
           <div className="relative pl-6 mb-10 border-l-4 border-[#131d26] inline-block text-left text-charcoal">
-            <h2 className="text-4xl md:text-6xl font-medium">Comience su transición hoy.</h2>
+            <h2 className="text-4xl md:text-6xl font-medium" style={{ color: '#131c27' }}>Comience su transición hoy.</h2>
           </div>
-          <p className="text-lg text-charcoal/50 mb-16 leading-relaxed">Nuestros ingenieros están listos para diseñar una solución a la medida de sus necesidades energéticas y arquitectónicas.</p>
+          <p className="text-lg text-charcoal/50 mb-16 leading-relaxed">Platícanos tu caso y te ayudamos a encontrar la mejor opción para ti.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-8">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05, filter: 'brightness(0.9)' }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveView('contact')}
               className="bg-charcoal text-white px-12 py-5 text-xs font-bold tracking-[0.2em] hover:bg-charcoal/90 transition-all shadow-xl shadow-black/10 cursor-pointer"
               style={{
                 clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)"
               }}
             >
               <span className="block">CONSULTORÍA GRATUITA</span>
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05, filter: 'brightness(1.1)' }}
-              whileTap={{ scale: 0.95 }}
-              className="border border-charcoal text-charcoal px-12 py-5 text-xs font-bold tracking-[0.2em] hover:bg-charcoal hover:text-white transition-all cursor-pointer"
-              style={{
-                clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)"
-              }}
-            >
-              <span className="block">VER CASOS DE ÉXITO</span>
             </motion.button>
           </div>
         </div>
@@ -1102,6 +1037,9 @@ const ProcessView = () => {
       {/* Detailed Steps Grid */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 mb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-6 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
+          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
+            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
+          </div>
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">01</span>
           <div className="relative z-10">
             <BarChart3 className="text-charcoal mb-10" size={32} />
@@ -1112,6 +1050,9 @@ const ProcessView = () => {
           </div>
         </div>
         <div className="lg:col-span-6 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
+          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
+            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
+          </div>
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">02</span>
           <div className="relative z-10">
             <Download className="text-charcoal mb-10" size={32} />
@@ -1123,16 +1064,22 @@ const ProcessView = () => {
         </div>
 
         <div className="lg:col-span-7 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
+          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
+            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
+          </div>
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">03</span>
           <div className="relative z-10">
             <div className="p-3 bg-[#f4f6f9] shadow-sm inline-block rounded-lg mb-10"><Zap className="text-charcoal" size={32} /></div>
             <h3 className="text-3xl font-medium text-charcoal mb-6">Instalación</h3>
             <p className="text-charcoal/50 text-lg leading-relaxed">
-              Ejecución técnica por equipos certificados bajo las normas más estrictas de seguridad. Utilizamos herraje de grado industrial para soportar climas adversos.
+              Nuestro equipo llega, instala todo limpio y seguro, y se va dejando tu sistema listo para generar desde el primer día.
             </p>
           </div>
         </div>
         <div className="lg:col-span-5 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
+          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
+            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
+          </div>
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">04</span>
           <div className="relative z-10">
             <div className="p-3 bg-[#f4f6f9] shadow-sm inline-block rounded-lg mb-10"><BarChart3 className="text-charcoal" size={32} /></div>
@@ -1159,7 +1106,7 @@ const ProcessView = () => {
           {[
             { label: '99.9%', sub: 'Eficiencia de Sistema' },
             { label: '25A', sub: 'Garantía de Potencia' },
-            { label: '<14m', sub: 'Tiempo de ROI Promedio' },
+            { label: '<14meses', sub: 'Tiempo de ROI Promedio' },
             { label: 'Tier 1', sub: 'Calidad de Componentes' }
           ].map((stat, idx) => (
             <div key={idx} className="border-l border-[#131d26] pl-10 py-4">
@@ -1270,8 +1217,17 @@ const ContactView = () => {
         </div>
 
         {/* Form Side */}
-        <div className="lg:col-span-7 bg-navy p-12 md:p-20 shadow-2xl rounded-[40px] border border-white/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div
+          className="lg:col-span-7 p-12 md:p-20 relative overflow-hidden border-2 border-[#1a3a5c]/50"
+          style={{
+            background: '#0b1d35',
+            backgroundImage:
+              'linear-gradient(rgba(120,190,255,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(120,190,255,0.055) 1px, transparent 1px)',
+            backgroundSize: '88px 88px',
+            boxShadow: '8px 8px 0px 0px #060f1c',
+          }}
+        >
+          <div className="absolute inset-0 border border-[#2a5a8c]/20 pointer-events-none z-0"></div>
           
           <div className="max-w-xl mx-auto relative z-10">
             {submitted ? (
@@ -1295,62 +1251,62 @@ const ContactView = () => {
                   <p className="text-white/30">Complete la información para recibir una propuesta personalizada.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="flex flex-col space-y-3">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col space-y-2">
                       <label className="text-[10px] font-bold text-white uppercase tracking-widest">Nombre Completo</label>
-                      <input 
+                      <input
                         required
-                        type="text" 
+                        type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        placeholder="Tu Nombre" 
-                        className="bg-transparent border-b-2 border-white/10 py-3 focus:outline-none focus:border-[#131d26] transition-colors placeholder:text-white/10 font-medium text-white" 
+                        placeholder="Tu nombre"
+                        className="bg-white/5 border border-white/10 px-4 py-3 focus:outline-none focus:border-[#4a9eff]/50 focus:bg-white/8 transition-colors placeholder:text-white/20 font-medium text-white"
                       />
                     </div>
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col space-y-2">
                       <label className="text-[10px] font-bold text-white uppercase tracking-widest">Correo Electrónico</label>
-                      <input 
+                      <input
                         required
-                        type="email" 
+                        type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        placeholder="contacto@empresa.com" 
-                        className="bg-transparent border-b-2 border-white/10 py-3 focus:outline-none focus:border-[#131d26] transition-colors placeholder:text-white/10 font-medium text-white" 
+                        placeholder="tu@correo.com"
+                        className="bg-white/5 border border-white/10 px-4 py-3 focus:outline-none focus:border-[#4a9eff]/50 focus:bg-white/8 transition-colors placeholder:text-white/20 font-medium text-white"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="flex flex-col space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col space-y-2">
                       <label className="text-[10px] font-bold text-white uppercase tracking-widest">Teléfono</label>
-                      <input 
+                      <input
                         required
-                        type="tel" 
+                        type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        placeholder="+XX XXX XXX XXX" 
-                        className="bg-transparent border-b-2 border-white/10 py-3 focus:outline-none focus:border-[#131d26] transition-colors placeholder:text-white/10 font-medium text-white" 
+                        placeholder="667 000 0000"
+                        className="bg-white/5 border border-white/10 px-4 py-3 focus:outline-none focus:border-[#4a9eff]/50 focus:bg-white/8 transition-colors placeholder:text-white/20 font-medium text-white"
                       />
                     </div>
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col space-y-2">
                       <label className="text-[10px] font-bold text-white uppercase tracking-widest">Tipo de Proyecto</label>
-                      <select 
+                      <select
                         value={formData.projectType}
                         onChange={(e) => setFormData({...formData, projectType: e.target.value})}
-                        className="bg-transparent border-b-2 border-white/10 py-3 focus:outline-none focus:border-white transition-colors font-medium text-white/50"
+                        className="bg-[#0b1d35] border border-white/10 px-4 py-3 focus:outline-none focus:border-[#4a9eff]/50 transition-colors font-medium text-white/70"
                       >
-                        <option className="bg-navy text-white">Hogar</option>
-                        <option className="bg-navy text-white">Comercial</option>
-                        <option className="bg-navy text-white">Industrial</option>
+                        <option className="bg-[#0b1d35] text-white">Hogar</option>
+                        <option className="bg-[#0b1d35] text-white">Comercial</option>
+                        <option className="bg-[#0b1d35] text-white">Industrial</option>
                       </select>
                     </div>
                   </div>
 
-                  <div className="flex flex-col space-y-3">
+                  <div className="flex flex-col space-y-2">
                     <label className="text-[10px] font-bold text-white uppercase tracking-widest">Gasto Mensual Promedio</label>
-                    <div className="relative flex items-center border-b-2 border-white/10 focus-within:border-[#131d26] transition-colors">
-                      <span className="text-white/40 font-medium py-3 pr-2">$</span>
+                    <div className="flex items-center bg-white/5 border border-white/10 focus-within:border-[#4a9eff]/50 transition-colors">
+                      <span className="text-white/40 font-medium px-4">$</span>
                       <input
                         required
                         type="number"
@@ -1358,19 +1314,19 @@ const ContactView = () => {
                         value={formData.monthlyExpense}
                         onChange={(e) => setFormData({...formData, monthlyExpense: e.target.value})}
                         placeholder="0.00"
-                        className="bg-transparent w-full py-3 focus:outline-none placeholder:text-white/10 font-medium text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        className="bg-transparent w-full py-3 pr-4 focus:outline-none placeholder:text-white/20 font-medium text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                       />
                     </div>
                   </div>
 
-                  <div className="flex flex-col space-y-3">
+                  <div className="flex flex-col space-y-2">
                     <label className="text-[10px] font-bold text-white uppercase tracking-widest">Detalles Adicionales</label>
                     <textarea
-                      rows={4} 
+                      rows={4}
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      placeholder="Describa su requerimiento..." 
-                      className="bg-transparent border-b-2 border-white/10 py-3 focus:outline-none focus:border-[#131d26] transition-colors placeholder:text-white/10 resize-none font-medium text-white"
+                      placeholder="Cuéntanos más sobre lo que necesitas..."
+                      className="bg-white/5 border border-white/10 px-4 py-3 focus:outline-none focus:border-[#4a9eff]/50 transition-colors placeholder:text-white/20 resize-none font-medium text-white"
                     ></textarea>
                   </div>
 
@@ -1523,7 +1479,7 @@ export default function App() {
             transition={{ duration: 0.4 }}
           >
             {activeView === 'home' && <HomeView setActiveView={setActiveView} />}
-            {activeView === 'solutions' && <SolutionsView />}
+            {activeView === 'solutions' && <SolutionsView setActiveView={setActiveView} />}
             {activeView === 'process' && <ProcessView />}
             {activeView === 'contact' && <ContactView />}
             {activeView === 'login' && <LoginView onSuccess={() => setActiveView('admin')} onBack={() => setActiveView('home')} />}
