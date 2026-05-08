@@ -510,7 +510,7 @@ const AdminView = () => {
 
 const SolarOverlay = () => (
   <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
-    <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
+    <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" loading="lazy" />
   </div>
 );
 
@@ -532,8 +532,8 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center pt-24 overflow-hidden">
         {/* Fosfo Background Glows */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#131d26]/20 blur-[120px] rounded-full z-0 animate-pulse"></div>
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[#131d26]/10 blur-[150px] rounded-full z-0"></div>
+        <div className="hidden md:block absolute top-1/4 -left-32 w-96 h-96 bg-[#131d26]/20 blur-[120px] rounded-full z-0 animate-pulse"></div>
+        <div className="hidden md:block absolute bottom-1/4 -right-32 w-96 h-96 bg-[#131d26]/10 blur-[150px] rounded-full z-0"></div>
 
         <div className="absolute inset-0 z-0 text-white">
           <img
@@ -555,7 +555,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
             transition={{ duration: 1.1, repeat: heroInView ? Infinity : 0, ease: 'linear' }}
           />
           <motion.div
-            className="absolute -top-full left-0 w-full h-[200%]"
+            className="hidden md:block absolute -top-full left-0 w-full h-[200%]"
             style={{
               backgroundImage: 'repeating-linear-gradient(176deg, transparent 0px, transparent 9px, rgba(170,210,255,0.04) 9px, rgba(170,210,255,0.04) 10px)',
               backgroundSize: '32px 180px',
@@ -578,7 +578,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
             </span>
             <div className="w-12 h-1 bg-[#131d26] mb-8"></div>
             <h1 className="text-5xl md:text-7xl font-medium text-white mb-8 leading-[1.1] tracking-tight" style={{ textShadow: '4px 4px 0px #131d26' }}>TRANSFORMA TU CONSUMO EN INVERSIÓN</h1>
-            <p className="text-lg text-white font-medium mb-12 max-w-md leading-relaxed px-5 py-4 bg-black/30 backdrop-blur-sm rounded-lg border-l-2 border-white/20">
+            <p className="text-lg text-white font-medium mb-12 max-w-md leading-relaxed px-5 py-4 bg-black/40 md:bg-black/30 md:backdrop-blur-sm rounded-lg border-l-2 border-white/20">
               Lo que hoy pagas de luz, mañana puede ser tuyo. Instala paneles solares y empieza a ahorrar desde el primer mes.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
@@ -633,12 +633,12 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
           {/* Infinite Scroll Container */}
           <div className="relative group">
             <div className="flex overflow-hidden space-x-16 select-none">
-              <motion.div 
+              <motion.div
                 animate={{ x: [0, -1920] }}
-                transition={{ 
-                  duration: 40, 
-                  repeat: Infinity, 
-                  ease: "linear" 
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear"
                 }}
                 className="flex items-center space-x-16 md:space-x-24 shrink-0"
               >
@@ -657,11 +657,12 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
                   { src: "/images/huwaei-480x245.webp", alt: "Huawei" },
                   { src: "/images/risen-480x245.webp", alt: "Risen" },
                 ]).map((brand, i) => (
-                  <img 
-                    key={i} 
-                    src={brand.src} 
-                    alt={brand.alt} 
-                    className="h-16 md:h-24 w-auto object-contain transition-transform duration-500 hover:scale-110 drop-shadow-[0_4px_10px_rgba(0,0,0,0.08)]" 
+                  <img
+                    key={i}
+                    src={brand.src}
+                    alt={brand.alt}
+                    loading="lazy"
+                    className="h-16 md:h-24 w-auto object-contain md:hover:scale-110 md:transition-transform md:duration-500 drop-shadow-[0_4px_10px_rgba(0,0,0,0.08)]"
                   />
                 ))}
               </motion.div>
@@ -680,8 +681,8 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
         {/* Intro section */}
         <section className="py-32 relative overflow-hidden">
           {/* Background Glows */}
-          <div className="absolute top-1/2 -left-1/4 w-[500px] h-[500px] bg-[#131d26]/5 blur-[120px] rounded-full z-0"></div>
-          <div className="absolute top-1/2 -right-1/4 w-[500px] h-[500px] bg-[#131d26]/5 blur-[120px] rounded-full z-0"></div>
+          <div className="hidden md:block absolute top-1/2 -left-1/4 w-[500px] h-[500px] bg-[#131d26]/5 blur-[120px] rounded-full z-0"></div>
+          <div className="hidden md:block absolute top-1/2 -right-1/4 w-[500px] h-[500px] bg-[#131d26]/5 blur-[120px] rounded-full z-0"></div>
 
           <div className="max-w-7xl mx-auto px-6 md:px-12 text-center mb-24 relative z-10">
             <h2 className="text-3xl md:text-5xl font-medium text-navy mb-8 max-w-3xl mx-auto leading-tight">
@@ -736,6 +737,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
                       <img
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-navy/80"></div>
@@ -781,6 +783,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
                 <img
                   src="https://images.unsplash.com/photo-1624397640148-949b1732bb0a?q=80&w=2574&auto=format&fit=crop"
                   alt="Installation"
+                  loading="lazy"
                   className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
@@ -906,7 +909,7 @@ const SolutionsView = ({ setActiveView }: { setActiveView: (v: string) => void }
       <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,#131c27,#131c27_1px,transparent_1px,transparent_60px)] opacity-[0.08] pointer-events-none z-0"></div>
       {/* Background Fosfo Accent */}
       <div className="absolute top-0 right-0 w-full h-[500px] bg-gradient-to-b from-[#131d26]/5 to-transparent z-0"></div>
-      <div className="absolute top-[20%] -right-32 w-96 h-96 bg-[#131d26]/10 blur-[150px] rounded-full z-0 animate-pulse"></div>
+      <div className="hidden md:block absolute top-[20%] -right-32 w-96 h-96 bg-[#131d26]/10 blur-[150px] rounded-full z-0 animate-pulse"></div>
 
       <section className="max-w-7xl mx-auto px-6 md:px-12 mb-32 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
@@ -925,6 +928,7 @@ const SolutionsView = ({ setActiveView }: { setActiveView: (v: string) => void }
               <img
                 src="/images/panel-solar-soluciones.webp"
                 alt="High Performance"
+                loading="lazy"
                 className="w-full h-full object-cover grayscale brightness-110 transition-transform duration-700 group-hover:scale-110"
               />
             </div>
@@ -954,14 +958,14 @@ const SolutionsView = ({ setActiveView }: { setActiveView: (v: string) => void }
               </div>
             </div>
             <div className="aspect-video bg-white/5 rounded-xl overflow-hidden mt-auto group">
-               <img src="/images/paneles-solare-casa-1024x768.webp" className="w-full h-full object-cover grayscale brightness-110 transition-transform duration-700 group-hover:scale-110" />
+               <img src="/images/paneles-solare-casa-1024x768.webp" loading="lazy" className="w-full h-full object-cover grayscale brightness-110 transition-transform duration-700 group-hover:scale-110" />
             </div>
           </div>
 
           {/* Corporativo */}
           <div className="md:col-span-6 lg:col-span-5 bg-charcoal p-12 text-white flex flex-col justify-between overflow-hidden relative group">
             <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity">
-              <img src="/images/panel-solar-comercial.webp" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src="/images/panel-solar-comercial.webp" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
             <div className="relative z-10">
               <Briefcase className="text-white/40 mb-10" size={48} />
@@ -981,7 +985,7 @@ const SolutionsView = ({ setActiveView }: { setActiveView: (v: string) => void }
             <h2 className="text-4xl font-medium text-white mb-8">Industrial Pesado</h2>
             <p className="text-white/50 text-lg mb-12">Infraestructura a gran escala que requiere independencia energética absoluta.</p>
             <div className="aspect-square bg-white/5 shadow-xl rounded-xl p-4 mt-auto overflow-hidden group">
-               <img src="/images/panel-solar-industrial.webp" className="w-full h-full object-cover rounded-lg grayscale brightness-110 transition-transform duration-700 group-hover:scale-110" />
+               <img src="/images/panel-solar-industrial.webp" loading="lazy" className="w-full h-full object-cover rounded-lg grayscale brightness-110 transition-transform duration-700 group-hover:scale-110" />
             </div>
           </div>
 
@@ -1044,7 +1048,7 @@ const ProcessView = () => {
       <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,#131c27,#131c27_1px,transparent_1px,transparent_60px)] opacity-[0.08] pointer-events-none z-0"></div>
       {/* Background Fosfo Accent */}
       <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-[#131d26]/5 to-transparent z-0"></div>
-      <div className="absolute top-[40%] -left-32 w-[600px] h-[600px] bg-[#131d26]/5 blur-[180px] rounded-full z-0"></div>
+      <div className="hidden md:block absolute top-[40%] -left-32 w-[600px] h-[600px] bg-[#131d26]/5 blur-[180px] rounded-full z-0"></div>
 
       <section className="max-w-7xl mx-auto px-6 md:px-12 mb-32 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
@@ -1062,6 +1066,7 @@ const ProcessView = () => {
             <img
               src="/images/panel-solar-proceso1.webp"
               alt="Paneles solares"
+              loading="lazy"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
           </div>
@@ -1201,8 +1206,8 @@ const ContactView = () => {
     <div className="pt-32 min-h-screen bg-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,#131c27,#131c27_1px,transparent_1px,transparent_60px)] opacity-[0.08] pointer-events-none z-0"></div>
       {/* Background Fosfo Accent */}
-      <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-[#131d26]/5 blur-[150px] rounded-full z-0"></div>
-      <div className="absolute bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-[#131d26]/5 blur-[120px] rounded-full z-0"></div>
+      <div className="hidden md:block absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-[#131d26]/5 blur-[150px] rounded-full z-0"></div>
+      <div className="hidden md:block absolute bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-[#131d26]/5 blur-[120px] rounded-full z-0"></div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-20 pb-32 relative z-10">
         {/* Content Side */}
@@ -1237,7 +1242,7 @@ const ContactView = () => {
 
           <div className="mt-20 pt-16 border-t border-[#131d26]/10">
             <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl relative group">
-               <img src="/images/panel-solar-casa-formulario.webp" alt="Casa con paneles solares" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+               <img src="/images/panel-solar-casa-formulario.webp" alt="Casa con paneles solares" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
             </div>
           </div>
         </div>
