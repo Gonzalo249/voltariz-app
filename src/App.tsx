@@ -1,6 +1,7 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import emailjs from '@emailjs/browser';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useInView } from 'motion/react';
+import QRCode from 'react-qr-code';
 import { 
   Menu, 
   X, 
@@ -464,15 +465,41 @@ const AdminView = () => {
               </table>
             )}
           </div>
-          <div className="p-8 text-center bg-gray-50/30">
-            <motion.button 
-              whileHover={{ scale: 1.05, letterSpacing: '0.25em' }}
-              className="text-[10px] font-bold text-navy uppercase tracking-[0.2em] hover:underline underline-offset-8 transition-all cursor-pointer px-6 py-3"
-              style={{
-                clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)"
+        </div>
+
+        {/* QR Cotizar */}
+        <div className="mt-16 bg-navy/5 border border-navy/5 rounded-2xl p-10 flex flex-col md:flex-row items-center gap-10">
+          <div className="bg-white p-6 rounded-xl shadow-sm shrink-0" id="qr-cotizar">
+            <QRCode value="https://voltariz.mx/?cotizar=1" size={160} />
+          </div>
+          <div className="flex-1">
+            <p className="text-[10px] font-bold text-navy/40 uppercase tracking-widest mb-2">Código QR — Cotización Directa</p>
+            <h3 className="text-2xl font-medium text-navy mb-3">Lleva clientes directo al formulario</h3>
+            <p className="text-navy/50 text-sm mb-6">Escanear este QR abre voltariz.mx directo en la página de cotización. Imprímelo en tarjetas, flyers o presupuestos.</p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                const svg = document.querySelector('#qr-cotizar svg') as SVGElement;
+                if (!svg) return;
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const canvas = document.createElement('canvas');
+                canvas.width = 400; canvas.height = 400;
+                const ctx = canvas.getContext('2d')!;
+                const img = new Image();
+                const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                img.onload = () => {
+                  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,400,400); ctx.drawImage(img,20,20,360,360);
+                  URL.revokeObjectURL(url);
+                  canvas.toBlob(b => { if(!b) return; const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'qr-voltariz-cotizar.png'; a.click(); });
+                };
+                img.src = url;
               }}
+              className="text-[10px] font-bold text-navy/40 hover:text-navy transition-colors tracking-widest uppercase border border-navy/10 px-5 py-2.5 rounded-lg cursor-pointer"
+              style={{ clipPath: "polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)" }}
             >
-              Ver Historial de Operaciones
+              Descargar PNG
             </motion.button>
           </div>
         </div>
@@ -481,8 +508,16 @@ const AdminView = () => {
   );
 };
 
+const SolarOverlay = () => (
+  <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
+    <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
+  </div>
+);
+
 const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => {
   const [expandedStep, setExpandedStep] = useState<string | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroRef, { margin: '0px 0px -100% 0px' });
 
   const processSteps = [
     { id: '01', title: 'Analizar', content: 'Realizamos un diagnóstico técnico profundo de tus consumos históricos y las condiciones de irradiancia en tu ubicación exacta.' },
@@ -495,7 +530,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-24 overflow-hidden">
+      <section ref={heroRef} className="relative min-h-screen flex items-center pt-24 overflow-hidden">
         {/* Fosfo Background Glows */}
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#131d26]/20 blur-[120px] rounded-full z-0 animate-pulse"></div>
         <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[#131d26]/10 blur-[150px] rounded-full z-0"></div>
@@ -508,7 +543,6 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
           />
         </div>
 
-        {/* Rain overlay */}
         <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/65"></div>
           <motion.div
@@ -518,7 +552,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
               backgroundSize: '18px 120px',
             }}
             animate={{ y: ['0%', '50%'] }}
-            transition={{ duration: 1.1, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 1.1, repeat: heroInView ? Infinity : 0, ease: 'linear' }}
           />
           <motion.div
             className="absolute -top-full left-0 w-full h-[200%]"
@@ -527,7 +561,7 @@ const HomeView = ({ setActiveView }: { setActiveView: (v: string) => void }) => 
               backgroundSize: '32px 180px',
             }}
             animate={{ y: ['0%', '50%'] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 1.8, repeat: heroInView ? Infinity : 0, ease: 'linear' }}
           />
         </div>
 
@@ -1037,9 +1071,7 @@ const ProcessView = () => {
       {/* Detailed Steps Grid */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 mb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-6 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
-          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
-            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
-          </div>
+          <SolarOverlay />
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">01</span>
           <div className="relative z-10">
             <BarChart3 className="text-charcoal mb-10" size={32} />
@@ -1050,9 +1082,7 @@ const ProcessView = () => {
           </div>
         </div>
         <div className="lg:col-span-6 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
-          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
-            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
-          </div>
+          <SolarOverlay />
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">02</span>
           <div className="relative z-10">
             <Download className="text-charcoal mb-10" size={32} />
@@ -1064,9 +1094,7 @@ const ProcessView = () => {
         </div>
 
         <div className="lg:col-span-7 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
-          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
-            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
-          </div>
+          <SolarOverlay />
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">03</span>
           <div className="relative z-10">
             <div className="p-3 bg-[#f4f6f9] shadow-sm inline-block rounded-lg mb-10"><Zap className="text-charcoal" size={32} /></div>
@@ -1077,9 +1105,7 @@ const ProcessView = () => {
           </div>
         </div>
         <div className="lg:col-span-5 bg-white border border-charcoal/10 p-16 relative overflow-hidden group">
-          <div className="absolute inset-0 opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500 pointer-events-none">
-            <img src="/images/panel_background.webp" alt="" className="w-full h-full object-cover" />
-          </div>
+          <SolarOverlay />
           <span className="absolute top-0 right-0 text-[180px] font-black text-charcoal/5 transform translate-x-4 -translate-y-12">04</span>
           <div className="relative z-10">
             <div className="p-3 bg-[#f4f6f9] shadow-sm inline-block rounded-lg mb-10"><BarChart3 className="text-charcoal" size={32} /></div>
@@ -1446,7 +1472,8 @@ const LoginView = ({ onSuccess, onBack }: { onSuccess: () => void, onBack: () =>
 };
 
 export default function App() {
-  const [activeView, setActiveView] = useState('home');
+  const params = new URLSearchParams(window.location.search);
+  const [activeView, setActiveView] = useState(params.get('cotizar') === '1' ? 'contact' : 'home');
 
   useEffect(() => {
     const handleNavToAdmin = () => setActiveView('admin');
