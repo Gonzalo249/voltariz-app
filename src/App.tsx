@@ -1411,8 +1411,8 @@ const LoginView = ({ onSuccess, onBack }: { onSuccess: () => void, onBack: () =>
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    const h1 = process.env.ADMIN_HASH_1;
-    const h2 = process.env.ADMIN_HASH_2;
+    const h1 = import.meta.env.VITE_ADMIN_HASH_1;
+    const h2 = import.meta.env.VITE_ADMIN_HASH_2;
     if (hash === h1 || hash === h2) {
       onSuccess();
     } else {
