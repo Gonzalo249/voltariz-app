@@ -12,6 +12,8 @@ export default defineConfig(({mode}) => {
       'process.env.EMAILJS_SERVICE_ID': JSON.stringify(env.EMAILJS_SERVICE_ID),
       'process.env.EMAILJS_TEMPLATE_ID': JSON.stringify(env.EMAILJS_TEMPLATE_ID),
       'process.env.EMAILJS_PUBLIC_KEY': JSON.stringify(env.EMAILJS_PUBLIC_KEY),
+      'process.env.ADMIN_HASH_1': JSON.stringify(env.ADMIN_HASH_1),
+      'process.env.ADMIN_HASH_2': JSON.stringify(env.ADMIN_HASH_2),
     },
     resolve: {
       alias: {
