@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, FormEvent } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import QRCode from 'react-qr-code';
@@ -178,7 +179,7 @@ const LegalModal = ({ type, onClose }: { type: 'privacidad' | 'terminos', onClos
             <>
               <section>
                 <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-3">1. Responsable</h3>
-                <p>Voltariz Energy, con domicilio en Culiacán, Sinaloa, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
+                <p>Voltariz Energy, con domicilio en Josefa Ortiz de Domínguez 123, Col. Tierra Blanca, Culiacán, Sinaloa, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
               </section>
               <section>
                 <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-3">2. Datos personales recabados</h3>
@@ -221,11 +222,11 @@ const LegalModal = ({ type, onClose }: { type: 'privacidad' | 'terminos', onClos
               </section>
               <section>
                 <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-3">5. Ley aplicable</h3>
-                <p>Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier disputa se someterá a los tribunales competentes de Culiacán, Sinaloa.</p>
+                <p>Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier disputa se someterá a los tribunales competentes de Culiacán, Sinaloa, con domicilio en Josefa Ortiz de Domínguez 123, Col. Tierra Blanca.</p>
               </section>
               <section>
                 <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-3">6. Contacto</h3>
-                <p>Para cualquier consulta relacionada con estos términos, contáctenos al 667 321 6597 o visítenos en Culiacán, Sinaloa.</p>
+                <p>Para cualquier consulta relacionada con estos términos, contáctenos al 667 321 6597 o visítenos en Josefa Ortiz de Domínguez 123, Col. Tierra Blanca, Culiacán, Sinaloa.</p>
               </section>
             </>
           )}
@@ -258,8 +259,8 @@ const Footer = () => {
             <div className="space-y-4 text-xs font-medium text-white/60">
               <p className="flex items-start gap-3">
                 <MapPin size={16} className="text-white/60 shrink-0 mt-0.5" />
-                <a href="https://maps.google.com/?q=Culiacán,Sinaloa,México" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
-                  Culiacán, Sinaloa
+                <a href="https://maps.google.com/?q=Josefa+Ortiz+de+Dominguez+123,+Tierra+Blanca,+Culiacan,+Sinaloa,+Mexico" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
+                  Josefa Ortiz de Domínguez 123, Tierra Blanca
                 </a>
               </p>
               <p className="flex items-center gap-3">
@@ -1388,7 +1389,7 @@ const ContactView = () => {
             <div className="mt-24 pt-12 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-3">Oficina Central</p>
-                <p className="text-white font-bold text-sm">Culiacán, Sinaloa</p>
+                <p className="text-white font-bold text-sm">Josefa Ortiz de Domínguez 123, Col. Tierra Blanca</p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-3">Consultas Directas</p>
@@ -1476,14 +1477,35 @@ const LoginView = ({ onSuccess, onBack }: { onSuccess: () => void, onBack: () =>
   );
 };
 
-export default function App() {
-  const params = new URLSearchParams(window.location.search);
-  const [activeView, setActiveView] = useState(params.get('cotizar') === '1' ? 'contact' : 'home');
+const VIEW_TO_PATH: Record<string, string> = {
+  home: '/',
+  solutions: '/soluciones',
+  process: '/proceso',
+  contact: '/cotizar',
+  login: '/login',
+  admin: '/admin',
+};
+
+const PATH_TO_VIEW: Record<string, string> = {
+  '/': 'home',
+  '/soluciones': 'solutions',
+  '/proceso': 'process',
+  '/cotizar': 'contact',
+  '/login': 'login',
+  '/admin': 'admin',
+};
+
+function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const activeView = PATH_TO_VIEW[location.pathname] ?? 'home';
+  const setActiveView = (view: string) => navigate(VIEW_TO_PATH[view] ?? '/');
 
   useEffect(() => {
-    const handleNavToAdmin = () => setActiveView('admin');
+    const handleNavToAdmin = () => navigate('/admin');
     const handleKeyShortcut = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'CapsLock') setActiveView('login');
+      if (e.ctrlKey && e.shiftKey && e.key === 'CapsLock') navigate('/login');
     };
     window.addEventListener('navToAdmin', handleNavToAdmin);
     window.addEventListener('keydown', handleKeyShortcut);
@@ -1491,31 +1513,34 @@ export default function App() {
       window.removeEventListener('navToAdmin', handleNavToAdmin);
       window.removeEventListener('keydown', handleKeyShortcut);
     };
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [activeView]);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-[#131d26] selection:text-white">
       <Navbar activeView={activeView} setActiveView={setActiveView} />
-      
+
       <main>
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeView}
+            key={location.pathname}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            {activeView === 'home' && <HomeView setActiveView={setActiveView} />}
-            {activeView === 'solutions' && <SolutionsView setActiveView={setActiveView} />}
-            {activeView === 'process' && <ProcessView />}
-            {activeView === 'contact' && <ContactView />}
-            {activeView === 'login' && <LoginView onSuccess={() => setActiveView('admin')} onBack={() => setActiveView('home')} />}
-            {activeView === 'admin' && <AdminView />}
+            <Routes>
+              <Route path="/" element={<HomeView setActiveView={setActiveView} />} />
+              <Route path="/soluciones" element={<SolutionsView setActiveView={setActiveView} />} />
+              <Route path="/proceso" element={<ProcessView />} />
+              <Route path="/cotizar" element={<ContactView />} />
+              <Route path="/login" element={<LoginView onSuccess={() => navigate('/admin')} onBack={() => navigate('/')} />} />
+              <Route path="/admin" element={<AdminView />} />
+              <Route path="*" element={<HomeView setActiveView={setActiveView} />} />
+            </Routes>
           </motion.div>
         </AnimatePresence>
       </main>
@@ -1539,6 +1564,14 @@ export default function App() {
         </motion.a>
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 
